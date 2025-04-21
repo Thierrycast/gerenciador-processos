@@ -1,3 +1,9 @@
+listar_processos() {
+  echo -e "PID\tUSUÁRIO\tCPU%\tMEM%\tTEMPO\tESTADO\tCOMANDO"
+  echo "-------------------------------------------------------------"
+  ps -eo pid,user,%cpu,%mem,etime,stat,cmd --sort=-%cpu | head -n 15
+}
+
 while true; do
   echo ""
   echo "===== GERENCIADOR DE PROCESSOS ====="
@@ -13,7 +19,7 @@ while true; do
   read -p "Escolha uma opção: " opcao
 
   case $opcao in
-    1) echo "listando todos os processos" ;;
+    1) listar_processos ;;
     2) echo "pausando um processo" ;;
     3) echo "continuando um processo" ;;
     4) echo "matar um processo" ;;
