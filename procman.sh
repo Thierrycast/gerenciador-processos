@@ -8,10 +8,17 @@ CYAN='\033[0;36m'
 MAGENTA='\033[0;35m'
 BOLD='\033[1m'
 
+pausa_para_voltar() {
+  echo ""
+  echo ""
+  read -p "Pressione Enter para voltar ao menu..."
+}
+
 listar_processos() {
   echo -e "${BOLD}${CYAN}PID\tUSUÁRIO\tCPU%\tMEM%\tTEMPO\tESTADO\tCOMANDO${NC}"
   echo -e "${CYAN}-------------------------------------------------------------${NC}"
   ps -eo pid,lstart,user,%cpu,%mem,etime,stat,cmd --sort=-%cpu | tail -n 15
+  pausa_para_voltar
 }
 
 pausar_processo() {
@@ -20,8 +27,10 @@ pausar_processo() {
   if ps -p "$pid" > /dev/null; then
     kill -SIGSTOP "$pid"
     echo -e "${GREEN}Processo pausado com sucesso.${NC}"
+    pausa_para_voltar
   else
     echo -e "${RED}Processo não encontrado.${NC}"
+    pausa_para_voltar
   fi
 }
 
@@ -31,8 +40,10 @@ continuar_processo() {
   if ps -p "$pid" > /dev/null; then
     kill -SIGCONT "$pid"
     echo -e "${GREEN}Processo continuado com sucesso.${NC}"
+    pausa_para_voltar
   else
     echo -e "${RED}Processo não encontrado.${NC}"
+    pausa_para_voltar
   fi
 }
 
@@ -42,8 +53,10 @@ matar_processo() {
   if ps -p "$pid" > /dev/null; then
     kill -SIGKILL "$pid"
     echo -e "${GREEN}Processo matado com sucesso.${NC}"
+    pausa_para_voltar
   else
     echo -e "${RED}Processo não encontrado.${NC}"
+    pausa_para_voltar
   fi
 }
 
