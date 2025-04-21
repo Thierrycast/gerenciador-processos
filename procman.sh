@@ -36,10 +36,12 @@ pausar_processo() {
 
   if ps -p "$pid" > /dev/null; then
     kill -SIGSTOP "$pid"
+    clear
     echo -e "${GREEN}Processo pausado com sucesso.${NC}"
     registrar_log "PAUSA" "$pid"
     pausa_para_voltar
   else
+  clear
     echo -e "${RED}Processo não encontrado.${NC}"
     pausa_para_voltar
   fi
@@ -50,10 +52,12 @@ continuar_processo() {
 
   if ps -p "$pid" > /dev/null; then
     kill -SIGCONT "$pid"
+    clear
     echo -e "${GREEN}Processo continuado com sucesso.${NC}"
     registrar_log "CONTINUAR" "$pid"
     pausa_para_voltar
   else
+    clear
     echo -e "${RED}Processo não encontrado.${NC}"
     pausa_para_voltar
   fi
@@ -64,17 +68,41 @@ matar_processo() {
 
   if ps -p "$pid" > /dev/null; then
     kill -SIGKILL "$pid"
+    clear
     echo -e "${GREEN}Processo matado com sucesso.${NC}"
     registrar_log "MATAR" "$pid"
     pausa_para_voltar
   else
+    clear
     echo -e "${RED}Processo não encontrado.${NC}"
     pausa_para_voltar
   fi
 }
 
+confirmar_saida() {
+  clear
+  read -p "Tem certeza que deseja sair? (s/n): " confirmar
+  case $confirmar in
+    [sS])
+      echo -e "${MAGENTA}Saindo...${NC}"
+      registrar_log "ENCERRAMENTO DO GERENCIADOR" "-"
+      exit 0
+      ;;
+    [nN])
+      echo -e "${YELLOW}Saída cancelada.${NC}"
+      sleep 1
+      ;;
+    *)
+      echo -e "${RED}Opção inválida. Retornando ao menu.${NC}"
+      sleep 1
+      ;;
+  esac
+}
+
+
 registrar_log "INICIO DO GERENCIADOR" "-"
 while true; do
+  clear
   echo ""
   echo -e "${BOLD}${BLUE}===== GERENCIADOR DE PROCESSOS =====${NC}"
   echo ""
@@ -93,11 +121,7 @@ while true; do
     2) pausar_processo ;;
     3) continuar_processo ;;
     4) matar_processo ;;
-    5)
-      echo -e "${MAGENTA}Saindo...${NC}"
-      registrar_log "ENCERRAMENTO DO GERENCIADOR" "-"
-      break
-    ;;
+    5) confirmar_saida;;
 
     *) echo -e "${RED}Opção inválida.${NC}" ;;
   esac
