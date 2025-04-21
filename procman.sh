@@ -1,8 +1,43 @@
 listar_processos() {
   echo -e "PID\tUSUÁRIO\tCPU%\tMEM%\tTEMPO\tESTADO\tCOMANDO"
   echo "-------------------------------------------------------------"
-  ps -eo pid,user,%cpu,%mem,etime,stat,cmd --sort=-%cpu | head -n 15 | tail -n +2
+  ps -eo pid,lstart,user,%cpu,%mem,etime,stat,cmd --sort=-%cpu | tail -n 15
+
 }
+
+pausar_processo() {
+  read -p "Digite o PID do processo: " pid
+
+    if ps -p "$pid" > /dev/null; then
+      kill -SIGSTOP "$pid"
+      echo "Processo pausado com sucesso."
+    else
+      echo "Processo nao encontrado."
+    fi
+}
+
+continuar_processo() {
+  read -p "Digite o PID do processo: " pid
+
+    if ps -p "$pid" > /dev/null; then
+      kill -SIGCONT "$pid"
+      echo "Processo continuado com sucesso."
+    else
+      echo "Processo nao encontrado."
+    fi
+}
+
+matar_processo() {
+  read -p "Digite o PID do processo: " pid
+
+    if ps -p "$pid" > /dev/null; then
+      kill -SIGKILL "$pid"
+      echo "Processo matado com sucesso."
+    else
+      echo "Processo nao encontrado."
+    fi
+}
+
 
 while true; do
   echo ""
@@ -20,9 +55,9 @@ while true; do
 
   case $opcao in
     1) listar_processos ;;
-    2) echo "pausando um processo" ;;
-    3) echo "continuando um processo" ;;
-    4) echo "matar um processo" ;;
+    2) pausar_processo ;;
+    3) continuar_processo ;;
+    4) matar_processo ;;
     5) echo "saindo..."; break ;;
     *) echo "Opção inválida" ;;
   esac
