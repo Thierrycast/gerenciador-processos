@@ -1,7 +1,7 @@
 listar_processos() {
   echo -e "PID\tUSUÁRIO\tCPU%\tMEM%\tTEMPO\tESTADO\tCOMANDO"
   echo "-------------------------------------------------------------"
-  ps -eo pid,user,%cpu,%mem,etime,stat,cmd --sort=-%cpu | head -n 15
+  ps -eo pid,user,%cpu,%mem,etime,stat,cmd --sort=-%cpu | head -n 15 | tail -n +2
 }
 
 while true; do
