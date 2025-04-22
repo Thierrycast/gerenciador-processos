@@ -37,12 +37,12 @@ pausar_processo() {
   if ps -p "$pid" > /dev/null; then
     kill -SIGSTOP "$pid"
     clear
-    echo -e "${GREEN}Processo pausado com sucesso.${NC}"
+    echo -e "${GREEN}Processo com PID ${YELLOW}$pid${GREEN} pausado com sucesso${NC}"
     registrar_log "PAUSA" "$pid"
     pausa_para_voltar
   else
   clear
-    echo -e "${RED}Processo não encontrado.${NC}"
+    echo -e "${RED}Processo com PID ${YELLOW}$pid${RED} não encontrado.${NC}"
     pausa_para_voltar
   fi
 }
@@ -53,12 +53,12 @@ continuar_processo() {
   if ps -p "$pid" > /dev/null; then
     kill -SIGCONT "$pid"
     clear
-    echo -e "${GREEN}Processo continuado com sucesso.${NC}"
+    echo -e "${GREEN}Processo com PID ${YELLOW}$pid${GREEN} continuado com sucesso${NC}"
     registrar_log "CONTINUAR" "$pid"
     pausa_para_voltar
   else
     clear
-    echo -e "${RED}Processo não encontrado.${NC}"
+    echo -e "${RED}Processo com PID ${YELLOW}$pid${RED} não encontrado.${NC}"
     pausa_para_voltar
   fi
 }
@@ -69,12 +69,12 @@ matar_processo() {
   if ps -p "$pid" > /dev/null; then
     kill -SIGKILL "$pid"
     clear
-    echo -e "${GREEN}Processo matado com sucesso.${NC}"
+    echo -e "${GREEN}Processo com PID ${YELLOW}$pid${GREEN} matado com sucesso.${NC}"
     registrar_log "MATAR" "$pid"
     pausa_para_voltar
   else
     clear
-    echo -e "${RED}Processo não encontrado.${NC}"
+    echo -e "${RED}Processo com PID ${YELLOW}$pid${RED} não encontrado.${NC}"
     pausa_para_voltar
   fi
 }
