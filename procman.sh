@@ -24,9 +24,9 @@ pausa_para_voltar() {
 }
 
 listar_processos() {
-  echo -e "${BOLD}${CYAN}PID\tUSUÁRIO\tCPU%\tMEM%\tTEMPO\tESTADO\tCOMANDO${NC}"
-  echo -e "${CYAN}-------------------------------------------------------------${NC}"
-  ps -eo pid,lstart,user,%cpu,%mem,etime,stat,cmd --sort=-%cpu | tail -n 15
+  echo -e "${BOLD}${CYAN}PID\tUSUÁRIO\tNOME\t\tCPU%\tMEM%\tTEMPO\tESTADO\tCOMANDO${NC}"
+  echo -e "${CYAN}--------------------------------------------------------------------------${NC}"
+  ps -eo pid,user,comm,%cpu,%mem,etime,stat,cmd | tail -n +2
   registrar_log "LISTAGEM" "-"
   pausa_para_voltar
 }
